@@ -1,6 +1,8 @@
+package src;
+
 public class TaskInfo implements Comparable<TaskInfo>{
-    public Integer inicialValue;
-    public Integer finalValue;
+    public final Integer inicialValue;
+    public final Integer finalValue;
 
     public TaskInfo(int inicialValue, int finalValue) {
         this.inicialValue = inicialValue;

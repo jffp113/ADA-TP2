@@ -1,3 +1,5 @@
+package src;
+
 import java.util.*;
 
 public class Problem {
@@ -86,7 +88,46 @@ public class Problem {
 
 
     public Set<TaskInfo> solve() {
+    	final Deque<Integer> ready = new LinkedList<Integer>();
+    	final Set<TaskInfo> result = new TreeSet<TaskInfo>();
+    	final int[] distance = new int[this.inAdjacentNodes.length];
+    	final int[] inDegree = new int[this.inAdjacentNodes.length];
+    	
+    	for (int i = 1; i < this.inAdjacentNodes.length; i++)
+    		inDegree[i] = this.inAdjacentNodes[i].size();
+    	
+    	ready.push(1);
+    	
+    	do {
+    		final int tail = ready.pop();
+    		if (this.inAdjacentNodes[tail].size() > 1) {
+    			List<TaskInfo> biggestFound = new LinkedList<TaskInfo>(); 
+    			for (Pair previous : this.inAdjacentNodes[tail]) {
+    				final TaskInfo ti = new TaskInfo(previous.vertice, tail);
+    				final int currCost =  distance[previous.vertice] + previous.cost; 
+    				if (currCost >= distance[tail]) {
+    					if (currCost > distance[tail]) {
+	    					distance[tail] = currCost;
+	    					result.addAll(biggestFound);
+	    					biggestFound = new LinkedList<TaskInfo>();
+    					}
+    					biggestFound.add(ti);
+    				}
+    				else {
+    					result.add(ti);
+    				}
+    			}
+    		}
+    		
+    		for (Pair headPair : this.outAdjacentNodes[tail]) {
+    			final int head = headPair.vertice;
+    			inDegree[head]--;
+    			if (inDegree[head] == 0)
+    				ready.add(head);
+    		}
+    		
+    	} while (!ready.isEmpty());
 
-        return null;
+        return result;
     }
 }

@@ -1,3 +1,5 @@
+package src;
+
 public class Task implements Comparable<Task> {
     int i;
     int j;
