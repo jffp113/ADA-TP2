@@ -1,4 +1,3 @@
-package src;
 
 import java.util.*;
 
@@ -101,10 +100,12 @@ public class Problem {
     	do {
     		final int tail = ready.pop();
     		if (this.inAdjacentNodes[tail].size() > 1) {
-    			List<TaskInfo> biggestFound = new LinkedList<TaskInfo>(); 
+    			List<TaskInfo> biggestFound = new LinkedList<TaskInfo>();
+
     			for (Pair previous : this.inAdjacentNodes[tail]) {
     				final TaskInfo ti = new TaskInfo(previous.vertice, tail);
-    				final int currCost =  distance[previous.vertice] + previous.cost; 
+    				final int currCost =  distance[previous.vertice] + previous.cost;
+
     				if (currCost >= distance[tail]) {
     					if (currCost > distance[tail]) {
 	    					distance[tail] = currCost;
@@ -118,6 +119,10 @@ public class Problem {
     				}
     			}
     		}
+            else if (this.inAdjacentNodes[tail].size() == 1) {
+                Pair p = this.inAdjacentNodes[tail].get(0);
+                distance[tail] = distance[p.vertice] + p.cost;
+            }
     		
     		for (Pair headPair : this.outAdjacentNodes[tail]) {
     			final int head = headPair.vertice;

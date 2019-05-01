@@ -1,4 +1,3 @@
-package src;
 
 public class Pair {
     public int vertice;

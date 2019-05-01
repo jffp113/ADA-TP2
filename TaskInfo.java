@@ -1,4 +1,3 @@
-package src;
 
 public class TaskInfo implements Comparable<TaskInfo>{
     public final Integer inicialValue;
