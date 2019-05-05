@@ -86,17 +86,17 @@ public class Problem {
     }
 
 
-    public Set<TaskInfo> solve() {
+    public Set<TaskInfo> solve_2() {
     	final Deque<Integer> ready = new LinkedList<Integer>();
     	final Set<TaskInfo> result = new TreeSet<TaskInfo>();
     	final int[] distance = new int[this.inAdjacentNodes.length];
     	final int[] inDegree = new int[this.inAdjacentNodes.length];
-    	
+
     	for (int i = 1; i < this.inAdjacentNodes.length; i++)
     		inDegree[i] = this.inAdjacentNodes[i].size();
-    	
+
     	ready.push(1);
-    	
+
     	do {
     		final int tail = ready.pop();
     		if (this.inAdjacentNodes[tail].size() > 1) {
@@ -110,7 +110,7 @@ public class Problem {
     					if (currCost > distance[tail]) {
 	    					distance[tail] = currCost;
 	    					result.addAll(biggestFound);
-	    					biggestFound = new LinkedList<TaskInfo>();
+	    					biggestFound = new LinkedList<>();
     					}
     					biggestFound.add(ti);
     				}
@@ -123,16 +123,62 @@ public class Problem {
                 Pair p = this.inAdjacentNodes[tail].get(0);
                 distance[tail] = distance[p.vertice] + p.cost;
             }
-    		
+
     		for (Pair headPair : this.outAdjacentNodes[tail]) {
     			final int head = headPair.vertice;
     			inDegree[head]--;
     			if (inDegree[head] == 0)
     				ready.add(head);
     		}
-    		
+
     	} while (!ready.isEmpty());
 
         return result;
     }
+
+    @SuppressWarnings("unchecked")
+    public Set<TaskInfo> solve() {
+        final Set<TaskInfo> result = new TreeSet<>();
+        final List<Integer> ready = new LinkedList<>();
+        int[] inDegree = new int[inAdjacentNodes.length];
+        List<Trio>[] worst = new List[inAdjacentNodes.length];
+
+        ready.add(1);
+        worst[1] = new LinkedList<>();
+        worst[1].add(new Trio(1,1,0));
+
+        for(int i = 0; i < inDegree.length; i++){
+            inDegree[i] = this.inAdjacentNodes[i].size();
+        }
+
+        do{
+            Integer i = ready.remove(0);
+
+            for(Pair p : outAdjacentNodes[i]){
+                int actualCost = worst[i].get(0).cost+ p.cost;
+                if(worst[p.vertice] == null) {
+                    worst[p.vertice] = new LinkedList<>();
+                    worst[p.vertice].add(new Trio(i, p.vertice, worst[i].get(0).cost + p.cost));
+                }else if(actualCost >= worst[p.vertice].get(0).cost){
+                   if(actualCost > worst[p.vertice].get(0).cost){
+                       for(Trio t : worst[p.vertice])
+                           result.add(new TaskInfo(t.i,t.j));
+                       worst[p.vertice] = new LinkedList<>();
+                   }
+                    worst[p.vertice].add(new Trio(i, p.vertice, worst[i].get(0).cost + p.cost));
+                }
+                else if(actualCost < worst[p.vertice].get(0).cost){
+                    result.add(new TaskInfo(i,p.vertice));
+                }
+
+                inDegree[p.vertice]--;
+                if(inDegree[p.vertice] == 0)
+                    ready.add(p.vertice);
+            }
+
+        }while(!ready.isEmpty());
+
+        return result;
+    }
+
 }

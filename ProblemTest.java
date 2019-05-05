@@ -122,6 +122,39 @@ public class ProblemTest {
 
     }
 
+    @Test
+    public void test7() {
+        int[][] graph = new int[][]
+                {       {1,7,1},
+                        {1,8,1},
+                        {7,9,1},
+                        {8,9,1},
+                        {1,10,2},
+                        {10,9,1},
+                        {1,4,6},
+                        {1,2,3},
+                        {1,3,12},
+                        {2,5,9},
+                        {2,3,1},
+                        {3,5,5},
+                        {3,6,9},
+                        {5,6,2},
+                        {4,3,6}
+                };
+
+        int[][] result = new int[][]{
+                {2,3},
+                {2,5},
+                {5,6},
+                {7,9},
+                {8,9}
+        };
+        test(result,new Problem(11,graph));
+    }
+
+    public void testTime1() {
+
+    }
 
     public void test(int[][] expected,Problem p){
         Set<TaskInfo> i = p.solve();
