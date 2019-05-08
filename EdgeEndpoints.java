@@ -1,4 +1,3 @@
-
 public class EdgeEndpoints implements Comparable<EdgeEndpoints>{
     private final Integer tail;
     private final Integer head;

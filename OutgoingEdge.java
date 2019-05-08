@@ -1,4 +1,3 @@
-
 public class OutgoingEdge {
 	
 	   public final int head, cost;
