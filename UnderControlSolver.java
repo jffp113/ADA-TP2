@@ -101,7 +101,7 @@ public class UnderControlSolver {
      * @return
      */
     private List<EdgeEndpoints> findDelayableNodes(int[] maxDistanceNode) {
-    	final List<EdgeEndpoints> unsortedResult = new LinkedList<EdgeEndpoints>();
+    	final List<EdgeEndpoints> unsortedResult = new LinkedList<>();
     	
     	for (int tail = FIRST_NODE; tail < this.outAdjacentNodes.length; tail++) {
             for(OutgoingEdge outgoing : outAdjacentNodes[tail]) {
