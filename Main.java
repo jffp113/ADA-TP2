@@ -1,8 +1,6 @@
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Iterator;
 
 public class Main {
@@ -10,7 +8,10 @@ public class Main {
 	private static final String REGEX_BREAK = " ";
 
     public static void main(String[] args) throws IOException {
-        try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
+        try (
+        		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+				BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out))
+			) {
 
 	        final String[] firstLineVals = input.readLine().split(REGEX_BREAK);
 	        final int numVertices = Integer.parseInt(firstLineVals[0]);
@@ -27,10 +28,14 @@ public class Main {
 	        }
 	        
 	        underControl.solve();
-	        System.out.println(underControl.getNumDelayedEdges());
+	        output.write(String.valueOf(underControl.getNumDelayedEdges()));
+	        output.write("\n");
 	        final Iterator<EdgeEndpoints> solution = underControl.getDelayedEdges();
-	        while (solution.hasNext())
-	        	System.out.println(solution.next());
+	        while (solution.hasNext()){
+	        	output.write(solution.next().toString());
+	        	output.write("\n");
+	        }
+	        output.flush();
         }
     }
 }

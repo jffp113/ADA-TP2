@@ -111,9 +111,7 @@ public class UnderControlSolver {
 
                 if(pathCost < maxDistanceNode[head])
                 	unsortedResult.add(new EdgeEndpoints(tail, head));
-                
-                if(pathCost > maxDistanceNode[outgoing.head])
-                    maxDistanceNode[outgoing.head] = pathCost;
+
             }
         }
     	
